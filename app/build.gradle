@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    compileSdkVersion 30
     defaultConfig {
         applicationId "org.broeuschmeul.android.gps.usb.provider"
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion 17
+        targetSdkVersion 30
 
         versionCode 199
-        versionName "v2.2.1"
+        versionName "v2.2.2"
         vectorDrawables.useSupportLibrary = true
 
         setProperty("archivesBaseName", "UsbGps4Droid-$versionName")
@@ -34,10 +33,12 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.android.support:design:27.0.2'
-    compile 'com.android.support:preference-v14:27.0.2'
-    compile 'com.android.support:support-vector-drawable:27.0.2'
-    compile 'com.android.support:cardview-v7:27.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation("com.google.guava:guava:30.1.1-android")
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.github.mik3y:usb-serial-for-android:3.4.0'
 }

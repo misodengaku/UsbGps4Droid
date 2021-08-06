@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
 

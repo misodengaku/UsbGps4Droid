@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.CheckBoxPreference;
+import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
@@ -513,6 +514,23 @@ public class USBGpsSettingsFragment extends PreferenceFragmentCompat implements
                         });
                     }
                 }
+                break;
+
+            case USBGpsProviderService.PREF_GNSS_TALKER:
+                Intent configIntent = new Intent(getActivity(), USBGpsProviderService.class);
+                String newTalker = sharedPreferences.getString(key, "");
+                EditTextPreference pref = (EditTextPreference) findPreference(USBGpsProviderService.PREF_GNSS_TALKER);
+                if (newTalker.length() != 2 && newTalker.length() != 0)
+                {
+                    log("Talker ID must be 2 letters or empty.");
+                    pref.setText("");
+                    return;
+                } else {
+                    pref.setText(newTalker);
+                }
+                configIntent.setAction(USBGpsProviderService.ACTION_CONFIGURE_GNSS_TALKER);
+                configIntent.putExtra(key, sharedPreferences.getString(key, ""));
+                getActivity().startService(configIntent);
                 break;
         }
     }

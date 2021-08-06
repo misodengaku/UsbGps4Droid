@@ -59,6 +59,7 @@ public class NmeaParser {
 
     public static final String SATELLITE_KEY = "satellites";
     public static final String SYSTEM_TIME_FIX = "system_time_fix";
+    public String talkerFilter = "";
 
     private Context appContext;
 
@@ -340,6 +341,11 @@ public class NmeaParser {
                 if (command.length() == 5) {
                     // If the command length is not 5, safe to assume we got
                     // bad data
+                    String talker = command.substring(0, 2);
+                    if (talkerFilter.length() == 2 && !talker.equals(talkerFilter)) {
+                            log("sentence reject by talker filter");
+                            return null;
+                    }
                     command = command.substring(2);
 
                     switch (command) {
@@ -612,10 +618,30 @@ public class NmeaParser {
 
                             // fix type  : 1 - no fix / 2 - 2D / 3 - 3D
                             String fixType = splitter.next();
+                            if (!fixType.equals("1") && !fixType.equals("2") && !fixType.equals("3") )
+                            {
+                                break;
+                            }
 
                             // discard PRNs of satellites used for fix (space for 12)
+                            int nbSat = 0;
                             for (int i = 0; ((i < 12) && (!"1".equals(fixType))); i++) {
-                                splitter.next();
+                                String prn = splitter.next();
+                                if (prn.length() > 0)
+                                {
+                                    nbSat++;
+                                }
+                            }
+
+                            if (nbSat != 0) {
+
+                                Bundle bundle = fix.getExtras();
+                                if (bundle == null) {
+                                    bundle = new Bundle();
+                                }
+
+                                bundle.putInt(SATELLITE_KEY, nbSat);
+                                fix.setExtras(bundle);
                             }
 
                             // Position dilution of precision (float)
@@ -623,6 +649,9 @@ public class NmeaParser {
 
                             // Horizontal dilution of precision (float)
                             String hdop = splitter.next();
+                            if (hdop != null && !hdop.equals("")) {
+                                fix.setAccuracy(Float.parseFloat(hdop) * precision);
+                            }
 
                             // Vertical dilution of precision (float)
                             String vdop = splitter.next();

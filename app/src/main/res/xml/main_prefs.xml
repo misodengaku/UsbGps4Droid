@@ -75,6 +75,15 @@
         android:defaultValue="false"
         />
 
+    <PreferenceCategory android:title="@string/pref_category_gnss_title">
+        <EditTextPreference
+            android:defaultValue="@string/pref_gnss_default_talker"
+            android:key="@string/pref_gnss_talker_filter_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/pref_gnss_talker_filter_summary"
+            android:title="@string/pref_gnss_talker_filter_title" />
+    </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_category_sirf_title"
         />

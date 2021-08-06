@@ -81,6 +81,8 @@ public class USBGpsProviderService extends Service implements USBGpsManager.Nmea
             "org.broeuschmeul.android.gps.usb.provider.action.CONFIGURE_SIRF_GPS";
     public static final String ACTION_ENABLE_SIRF_GPS =
             "org.broeuschmeul.android.gps.usb.provider.action.ENABLE_SIRF_GPS";
+    public static final String ACTION_CONFIGURE_GNSS_TALKER =
+            "org.broeuschmeul.android.gps.usb.provider.action.CONFIGURE_GNSS_TALKER";
 
     public static final String PREF_START_GPS_PROVIDER = "startGps";
     public static final String PREF_START_ON_BOOT = "startOnBoot";
@@ -99,6 +101,7 @@ public class USBGpsProviderService extends Service implements USBGpsManager.Nmea
     public static final String PREF_TOAST_LOGGING = "showToasts";
     public static final String PREF_SET_TIME = "setTime";
     public static final String PREF_ABOUT = "about";
+    public static final String PREF_GNSS_TALKER = "talkerIDFilter";
 
     /**
      * Tag used for log messages
@@ -179,6 +182,8 @@ public class USBGpsProviderService extends Service implements USBGpsManager.Nmea
                 )
         );
 
+        String talkerIDFilter = sharedPreferences.getString(PREF_GNSS_TALKER, "");
+
         log("prefs device addr: " + vendorId + " - " + productId);
 
         if (ACTION_START_GPS_PROVIDER.equals(intent.getAction())) {
@@ -189,6 +194,7 @@ public class USBGpsProviderService extends Service implements USBGpsManager.Nmea
                 }
                 gpsManager = new USBGpsManager(this, vendorId, productId, maxConRetries);
                 boolean enabled = gpsManager.enable();
+                gpsManager.setTalkerIDFilter(talkerIDFilter);
 
                 if (sharedPreferences.getBoolean(PREF_START_GPS_PROVIDER, false) != enabled) {
                     edit.putBoolean(PREF_START_GPS_PROVIDER, enabled);
@@ -284,6 +290,10 @@ public class USBGpsProviderService extends Service implements USBGpsManager.Nmea
                 } else {
                     gpsManager.enableSirfConfig(sharedPreferences);
                 }
+            }
+        } else if (ACTION_CONFIGURE_GNSS_TALKER.equals(intent.getAction())) {
+            if (gpsManager != null) {
+                gpsManager.setTalkerIDFilter(talkerIDFilter);
             }
         }
         return Service.START_NOT_STICKY;

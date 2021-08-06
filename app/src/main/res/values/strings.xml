@@ -88,6 +88,10 @@
     <string name="pref_enable_static_navigation_title">Static Navigation</string>
     <string name="pref_enable_static_navigation_summary_off">Static Navigation disabled</string>
     <string name="pref_enable_static_navigation_summary_on">Static Navigation enabled</string>
+    <string name="pref_gnss_talker_filter_key">talkerIDFilter</string>
+    <string name="pref_gnss_talker_filter_title">Talker ID filtering</string>
+    <string name="pref_gnss_talker_filter_summary">Ignore NMEA sentences other than the ID specified in this field. Empty this field to accept all.</string>
+    <string name="pref_gnss_default_talker"></string>
 
     <string name="msg_gps_provider_started">Usb GPS... started</string>
     <string name="msg_gps_provider_stopped">Usb GPS... stopped</string>
@@ -163,6 +167,7 @@
 
     <string name="pref_category_device_title">Device</string>
     <string name="pref_category_service_title">Service</string>
+    <string name="pref_category_gnss_title">GNSS</string>
     <string name="pref_category_sirf_title">SiRF</string>
     <string name="pref_category_nmea_log_title">NMEA Log</string>
     <string name="pref_category_debug_title">Debug</string>

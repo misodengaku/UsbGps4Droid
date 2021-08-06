@@ -1252,4 +1252,13 @@ public class USBGpsManager {
         if (BuildConfig.DEBUG || debug)
             Log.d(LOG_TAG, message);
     }
+
+    public void setTalkerIDFilter(final String talkerID) {
+        if (talkerID.length() != 2 && talkerID.length() != 0)
+        {
+            debugLog("invalid Talker ID");
+            return;
+        }
+        parser.talkerFilter = talkerID;
+    }
 }
